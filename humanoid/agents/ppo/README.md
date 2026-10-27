@@ -1,0 +1,1 @@
+This code is adapted from [rsl_rl](https://github.com/leggedrobotics/rsl_rl) v1.0.2 under the BSD-3-Clause license. Changes include support for Gymnasium API, bug fixes, and general integration with the rest of the codebase (non-IsaacGym envs, logging, configs, etc.).

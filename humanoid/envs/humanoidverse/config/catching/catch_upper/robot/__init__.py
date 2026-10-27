@@ -1,0 +1,1 @@
+from .g1_upper_robot import G1CatchUpperLockLegsRobotConfig

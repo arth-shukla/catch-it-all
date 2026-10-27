@@ -1,0 +1,1 @@
+from .lock_legs import G1CatchUpperLockLegsRewardsConfig

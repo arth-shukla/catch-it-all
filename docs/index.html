@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="title" content="Catch It All!: Generalizable Dynamic Catching with a Dexterous Hand">
+  <meta name="description" content="A sim-to-real framework for humanoid robots that catches unseen thrown objects overhand and underhand using a single egocentric camera.">
+  <meta name="keywords" content="dynamic catching, dexterous manipulation, humanoid robot, sim-to-real, reinforcement learning">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Catch It All!: Generalizable Dynamic Catching with a Dexterous Hand">
+  <meta property="og:description" content="A sim-to-real framework for humanoid robots that catches unseen thrown objects overhand and underhand using a single egocentric camera.">
+  <meta property="og:url" content="https://arth-shukla.github.io/catch-it-all/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Catch It All!: Generalizable Dynamic Catching with a Dexterous Hand">
+  <meta name="twitter:description" content="A sim-to-real framework for humanoid robots that catches unseen thrown objects overhand and underhand using a single egocentric camera.">
+
+  <title>Catch It All!: Generalizable Dynamic Catching with a Dexterous Hand</title>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title"><em class="name">Catch It All!</em>: Generalizable Dynamic Catching with a Dexterous Hand</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://an-axolotl.github.io/fay-robotics.github.io/" target="_blank">Kehlani Fay</a><sup>*,1</sup>,</span>
+              <span class="author-block">
+                <a href="https://arth.website/" target="_blank">Arth Shukla</a><sup>*,1</sup>,</span>
+              <span class="author-block">
+                <a href="https://huazeliu.github.io/" target="_blank">Huaze Liu</a><sup>2</sup>,</span>
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/darin-djapri-a91143214/" target="_blank">Darin Djapri</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="https://abuynits.github.io/" target="_blank">Alexiy Buynitsky</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="https://www.nicklashansen.com/" target="_blank">Nicklas Hansen</a><sup>1</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors publication-affiliations">
+              <span class="author-block"><sup>1</sup>UC San Diego</span>
+              <span class="author-block"><sup>2</sup>Harvey Mudd College</span>
+              <span class="author-block"><sup>*</sup>Equal contribution</span><!-- <br><span class="author-block">ICRA 2027</span> -->
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="static/catch_it_all.pdf" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2610.39044" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="ai ai-arxiv"></i>
+                </span>
+                <span>arXiv</span>
+              </a>
+            </span>
+
+            <span class="link-block">
+              <a href="https://github.com/arth-shukla/catch-it-all" target="_blank"
+              class="external-link button is-normal is-rounded is-dark">
+              <span class="icon">
+                <i class="fab fa-github"></i>
+              </span>
+              <span>Code</span>
+            </a>
+          </span>
+
+          <span class="link-block">
+            <a href="#video"
+            class="external-link button is-normal is-rounded is-dark">
+            <span class="icon">
+              <i class="fas fa-video"></i>
+            </span>
+            <span>Video</span>
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</section>
+
+
+<!-- Teaser video-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video poster="static/videos/teaser.jpg" autoplay muted loop playsinline preload="metadata">
+        <source src="static/videos/teaser.mp4" type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        Real tosses at 0.33&times; speed, zero-shot transfered to real, using only one egocentric camera.
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Catching requires generalizing to novel projectiles and adapting in real time to unpredictable contact, from noisy visual observations alone. <em class="name">Catch It All!</em> is a sim-to-real catching framework for humanoid robots that generalizes to unseen objects with different geometry, deformability, and elasticity, for both underhand and overhand catches, using only one egocentric camera.
+          </p>
+          <p>
+            Grasps that adapt to the object's pose and shape come from a fingertip-to-surface distance reward. Safety-aware curricula let the policy act at high frequency near hardware limits, including wrist torque limits as low as 5 N&middot;m. The policy is trained in simulation and deployed zero-shot on a Unitree G1 with a 20-DoF dexterous hand, where it catches 9 objects it never saw in training: low-rebound plushes, semi-deformable toys and chip bags, and rigid-elastic objects that bounce.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+<!-- Submission video -->
+<section class="hero is-small" id="video">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Video</h2>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <div class="local-video">
+            <video poster="static/videos/submission_video.jpg" controls preload="metadata" playsinline>
+              <source src="static/videos/submission_video.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End submission video -->
+
+
+<!-- Egocentric view -->
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">What the Robot Sees</h2>
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <div class="content has-text-justified">
+            <p>
+              There is no third-person camera. The only sensor is a ZED 2i on the robot's head, and it moves with the robot. Each panel shows a side-by-side pair from that camera; the blue square marks the object position extracted by SAM2-Tiny, including camera and inference latency. No square means the prediction was dropped, which happens whenever the object leaves the frame.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="columns is-centered clip-grid">
+        <div class="column is-two-fifths has-text-centered">
+          <video poster="static/videos/egocentric/overhand.jpg" muted loop playsinline preload="metadata">
+            <source src="static/videos/egocentric/overhand.mp4" type="video/mp4">
+          </video>
+          <p class="clip-caption">Overhand</p>
+        </div>
+        <div class="column is-two-fifths has-text-centered">
+          <video poster="static/videos/egocentric/underhand.jpg" muted loop playsinline preload="metadata">
+            <source src="static/videos/egocentric/underhand.mp4" type="video/mp4">
+          </video>
+          <p class="clip-caption">Underhand</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End egocentric view -->
+
+
+<!-- Overhand catches -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Overhand Catches</h2>
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <div class="content has-text-justified">
+            <p>
+              Overhand is the harder case. The hand starts high with the palm facing the pitcher and has to intercept the object at the top of its arc, moving forward for short tosses and pulling back mid-flight for long ones. Every clip is a real toss at 0.33&times; speed, caught zero-shot by the same policy with no per-object tuning.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="columns is-multiline is-centered clip-grid">
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/overhand/takis.jpg" muted loop playsinline preload="metadata"><source src="static/videos/overhand/takis.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Takis<span>deformable</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/overhand/bowl.jpg" muted loop playsinline preload="metadata"><source src="static/videos/overhand/bowl.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Green bowl<span>rigid-elastic</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/overhand/strawberry.jpg" muted loop playsinline preload="metadata"><source src="static/videos/overhand/strawberry.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Strawberry<span>deformable</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/overhand/panda.jpg" muted loop playsinline preload="metadata"><source src="static/videos/overhand/panda.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Panda<span>plush</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/overhand/turtle.jpg" muted loop playsinline preload="metadata"><source src="static/videos/overhand/turtle.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Turtle<span>plush</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/overhand/pineapple.jpg" muted loop playsinline preload="metadata"><source src="static/videos/overhand/pineapple.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Pineapple<span>deformable</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/overhand/bear.jpg" muted loop playsinline preload="metadata"><source src="static/videos/overhand/bear.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Bear<span>rigid-elastic</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/overhand/ellipsoid.jpg" muted loop playsinline preload="metadata"><source src="static/videos/overhand/ellipsoid.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Ellipsoid<span>rigid-elastic</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/overhand/sandbag.jpg" muted loop playsinline preload="metadata"><source src="static/videos/overhand/sandbag.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Sandbag<span>plush</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End overhand catches -->
+
+
+<!-- Underhand catches -->
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Underhand Catches</h2>
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <div class="content has-text-justified">
+            <p>
+              For underhand tosses the hand tracks the object through its arc and closes as it arrives, adjusting the grasp to whatever lands in it: a rigid bowl, a bag of chips, a plush turtle.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="columns is-multiline is-centered clip-grid">
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/underhand/panda.jpg" muted loop playsinline preload="metadata"><source src="static/videos/underhand/panda.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Panda<span>plush</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/underhand/bear.jpg" muted loop playsinline preload="metadata"><source src="static/videos/underhand/bear.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Bear<span>rigid-elastic</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/underhand/bowl.jpg" muted loop playsinline preload="metadata"><source src="static/videos/underhand/bowl.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Green bowl<span>rigid-elastic</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/underhand/takis.jpg" muted loop playsinline preload="metadata"><source src="static/videos/underhand/takis.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Takis<span>deformable</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/underhand/strawberry.jpg" muted loop playsinline preload="metadata"><source src="static/videos/underhand/strawberry.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Strawberry<span>deformable</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/underhand/turtle.jpg" muted loop playsinline preload="metadata"><source src="static/videos/underhand/turtle.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Turtle<span>plush</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/underhand/pineapple.jpg" muted loop playsinline preload="metadata"><source src="static/videos/underhand/pineapple.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Pineapple<span>deformable</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/underhand/ellipsoid.jpg" muted loop playsinline preload="metadata"><source src="static/videos/underhand/ellipsoid.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Ellipsoid<span>rigid-elastic</span></p>
+        </div>
+        <div class="column is-one-third has-text-centered">
+          <video poster="static/videos/underhand/sandbag.jpg" muted loop playsinline preload="metadata"><source src="static/videos/underhand/sandbag.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Sandbag<span>plush</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End underhand catches -->
+
+
+<!-- Real-world results -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Real-World Results</h2>
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <div class="content has-text-justified">
+            <p>
+              Each of the 9 objects was thrown four times per catching style: one long (over 1.8 m), two medium (1.4 to 1.8 m), and one short (1.0 to 1.4 m). Shorter tosses demand fast reaction; longer ones demand good tracking. Success rate over 36 tosses per style.
+            </p>
+          </div>
+          <table class="table results-table">
+            <thead>
+              <tr><th>Object class</th><th class="has-text-right">Underhand</th><th class="has-text-right">Overhand</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Plush <span class="sub">panda, turtle, sandbag</span></td><td class="has-text-right">50.0%</td><td class="has-text-right">33.3%</td></tr>
+              <tr><td>Deformable <span class="sub">Takis, strawberry, pineapple</span></td><td class="has-text-right">25.0%</td><td class="has-text-right">41.7%</td></tr>
+              <tr><td>Rigid-elastic <span class="sub">green bowl, ellipsoid, bear</span></td><td class="has-text-right">41.7%</td><td class="has-text-right">33.3%</td></tr>
+              <tr><th>All objects</th><th class="has-text-right">38.9%</th><th class="has-text-right">36.1%</th></tr>
+            </tbody>
+          </table>
+          <div class="content has-text-justified">
+            <p>
+              A human teleoperator with a bimanual rig at 15 Hz caught 3 of 44 tosses, which is why the policy is trained with online reinforcement learning in simulation rather than from demonstrations.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End real-world results -->
+
+
+<!-- Failures -->
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Failures</h2>
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <div class="content has-text-justified">
+            <p>
+              Not every toss is caught. In simulation, success drops most on long-axis objects with high angular velocity, which the state representation does not capture, and on very heavy or very large objects. On the real robot, stereo depth noise and dropped detections when the object leaves the frame add to the difficulty.
+            </p>
+          </div>
+        </div>
+      </div>
+      <h3 class="subtitle is-5 has-text-centered">Overhand</h3>
+      <div class="columns is-multiline is-centered clip-grid">
+        <div class="column is-one-quarter has-text-centered">
+          <video poster="static/videos/failures/overhand_bear.jpg" muted loop playsinline preload="metadata"><source src="static/videos/failures/overhand_bear.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Bear<span>rigid-elastic</span></p>
+        </div>
+        <div class="column is-one-quarter has-text-centered">
+          <video poster="static/videos/failures/overhand_ellipsoid.jpg" muted loop playsinline preload="metadata"><source src="static/videos/failures/overhand_ellipsoid.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Ellipsoid<span>rigid-elastic</span></p>
+        </div>
+        <div class="column is-one-quarter has-text-centered">
+          <video poster="static/videos/failures/overhand_panda.jpg" muted loop playsinline preload="metadata"><source src="static/videos/failures/overhand_panda.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Panda<span>plush</span></p>
+        </div>
+        <div class="column is-one-quarter has-text-centered">
+          <video poster="static/videos/failures/overhand_strawberry.jpg" muted loop playsinline preload="metadata"><source src="static/videos/failures/overhand_strawberry.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Strawberry<span>deformable</span></p>
+        </div>
+      </div>
+      <h3 class="subtitle is-5 has-text-centered">Underhand</h3>
+      <div class="columns is-multiline is-centered clip-grid">
+        <div class="column is-one-quarter has-text-centered">
+          <video poster="static/videos/failures/underhand_bowl.jpg" muted loop playsinline preload="metadata"><source src="static/videos/failures/underhand_bowl.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Green bowl<span>rigid-elastic</span></p>
+        </div>
+        <div class="column is-one-quarter has-text-centered">
+          <video poster="static/videos/failures/underhand_ellipsoid.jpg" muted loop playsinline preload="metadata"><source src="static/videos/failures/underhand_ellipsoid.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Ellipsoid<span>rigid-elastic</span></p>
+        </div>
+        <div class="column is-one-quarter has-text-centered">
+          <video poster="static/videos/failures/underhand_sandbag.jpg" muted loop playsinline preload="metadata"><source src="static/videos/failures/underhand_sandbag.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Sandbag<span>plush</span></p>
+        </div>
+        <div class="column is-one-quarter has-text-centered">
+          <video poster="static/videos/failures/underhand_takis.jpg" muted loop playsinline preload="metadata"><source src="static/videos/failures/underhand_takis.mp4" type="video/mp4"></video>
+          <p class="clip-caption">Takis<span>deformable</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End failures -->
+
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <!-- TODO: venue -->
+      <pre><code>@misc{shukla2026catchallgeneralizabledynamic,
+  title         = {Catch It All!: Generalizable Dynamic Catching with a Dexterous Hand},
+  author        = {Arth Shukla and Kehlani Fay and Huaze Liu and Darin Djapri and Alexiy Buynitsky and Nicklas Hansen},
+  year          = {2026},
+  eprint        = {2610.39044},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO},
+  url           = {https://arxiv.org/abs/2610.39044},
+}</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  </body>
+  </html>

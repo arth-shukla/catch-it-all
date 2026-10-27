@@ -1,0 +1,11 @@
+seed: 0
+ckpt_path: null
+
+logger:
+  workspace: humanoid_exps
+  exp_name: evaluate
+  clear_out: False
+  
+  tensorboard: True
+  wandb: False
+  neptune: False

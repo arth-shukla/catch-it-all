@@ -1,0 +1,1458 @@
+<?xml version="1.0" ?>
+<robot name="g1_29dof_lock_legs_lock_waist_lock_hand">
+	<mujoco>
+		<compiler meshdir="meshes" discardvisual="false"/>
+	</mujoco>
+	<!-- [CAUTION] uncomment when convert to mujoco -->
+	<!-- <link name="world"></link><joint name="floating_base_joint" type="floating"><parent link="world"/><child link="pelvis"/></joint> -->
+	<link name="pelvis">
+		<inertial>
+			<origin xyz="0 0 -0.07605" rpy="0 0 0"/>
+			<mass value="3.813"/>
+			<inertia ixx="0.010549" ixy="0" ixz="2.1E-06" iyy="0.0093089" iyz="0" izz="0.0079184"/>
+		</inertial>
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="g1_meshes/pelvis.STL"/>
+			</geometry>
+			<material name="dark">
+				<color rgba="0.2 0.2 0.2 1"/>
+			</material>
+		</visual>
+	</link>
+	<link name="pelvis_contour_link">
+		<inertial>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<mass value="0.001"/>
+			<inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7"/>
+		</inertial>
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="g1_meshes/pelvis_contour_link.STL"/>
+			</geometry>
+			<material name="white">
+				<color rgba="0.7 0.7 0.7 1"/>
+			</material>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="g1_meshes/pelvis_contour_link.STL"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="pelvis_contour_joint" type="fixed">
+		<parent link="pelvis"/>
+		<child link="pelvis_contour_link"/>
+	</joint>
+	<!-- Torso -->
+	<link name="waist_yaw_link">
+		<inertial>
+			<origin xyz="0.003494 0.000233 0.018034" rpy="0 0 0"/>
+			<mass value="0.214"/>
+			<inertia ixx="0.00010673" ixy="2.703E-06" ixz="-7.631E-06" iyy="0.00010422" iyz="-2.01E-07" izz="0.0001625"/>
+		</inertial>
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="g1_meshes/waist_yaw_link_rev_1_0.STL"/>
+			</geometry>
+			<material name="white">
+				<color rgba="0.7 0.7 0.7 1"/>
+			</material>
+		</visual>
+	</link>
+	<joint name="waist_yaw_joint" type="fixed">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<parent link="pelvis"/>
+		<child link="waist_yaw_link"/>
+		<axis xyz="0 0 1"/>
+		<limit lower="-2.618" upper="2.618" effort="88" velocity="32"/>
+	</joint>
+	<link name="waist_roll_link">
+		<inertial>
+			<origin xyz="0 2.3E-05 0" rpy="0 0 0"/>
+			<mass value="0.086"/>
+			<inertia ixx="7.079E-06" ixy="0" ixz="0" iyy="6.339E-06" iyz="0" izz="8.245E-06"/>
+		</inertial>
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="g1_meshes/waist_roll_link_rev_1_0.STL"/>
+			</geometry>
+			<material name="white">
+				<color rgba="0.7 0.7 0.7 1"/>
+			</material>
+		</visual>
+	</link>
+	<joint name="waist_roll_joint" type="fixed">
+		<origin xyz="-0.0039635 0 0.044" rpy="0 0 0"/>
+		<parent link="waist_yaw_link"/>
+		<child link="waist_roll_link"/>
+		<axis xyz="1 0 0"/>
+		<limit lower="-0.52" upper="0.52" effort="50" velocity="37"/>
+	</joint>
+	<link name="torso_link">
+		<inertial>
+			<origin xyz="0.000931 0.000346 0.15082" rpy="0 0 0"/>
+			<mass value="6.78"/>
+			<inertia ixx="0.05905" ixy="3.3302E-05" ixz="-0.0017715" iyy="0.047014" iyz="-2.2399E-05" izz="0.025652"/>
+		</inertial>
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="g1_meshes/torso_link_rev_1_0.STL"/>
+			</geometry>
+			<material name="white">
+				<color rgba="0.7 0.7 0.7 1"/>
+			</material>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="g1_meshes/torso_link_rev_1_0.STL"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="waist_pitch_joint" type="fixed" dont_collapse="true">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<parent link="waist_roll_link"/>
+		<child link="torso_link"/>
+		<axis xyz="0 1 0"/>
+		<limit lower="-0.52" upper="0.52" effort="50" velocity="37"/>
+	</joint>
+	<!-- Head -->
+	<link name="head_link">
+		<inertial>
+			<origin xyz="0.005267 0.000299 0.449869" rpy="0 0 0"/>
+			<mass value="1.036"/>
+			<inertia ixx="0.004085051" ixy="-2.543E-06" ixz="-6.9455E-05" iyy="0.004185212" iyz="-3.726E-06" izz="0.001807911"/>
+		</inertial>
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="g1_meshes/head_link.STL"/>
+			</geometry>
+			<material name="dark">
+				<color rgba="0.2 0.2 0.2 1"/>
+			</material>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="g1_meshes/head_link.STL"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="head_joint" type="fixed" dont_collapse="true">
+		<origin xyz="0.0039635 0 -0.044" rpy="0 0 0"/>
+		<parent link="torso_link"/>
+		<child link="head_link"/>
+	</joint>
+	<!-- Arm -->
+	<link name="right_shoulder_pitch_link">
+		<inertial>
+		<origin xyz="0 -0.035892 -0.011628" rpy="0 0 0"/>
+		<mass value="0.718"/>
+		<inertia ixx="0.0004291" ixy="9.2E-06" ixz="6.4E-06" iyy="0.000453" iyz="-2.26E-05" izz="0.000423"/>
+		</inertial>
+		<visual>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+			<mesh filename="g1_meshes/right_shoulder_pitch_link.STL"/>
+		</geometry>
+		<material name="white">
+			<color rgba="0.7 0.7 0.7 1"/>
+		</material>
+		</visual>
+		<collision>
+			<origin xyz="0 -0.04 -0.01" rpy="0 1.5707963267948966 0"/>
+			<geometry>
+				<cylinder radius="0.03" length="0.05"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="right_shoulder_pitch_joint" type="revolute">
+		<origin xyz="0.0039563 -0.10021 0.24778" rpy="-0.27931 5.4949E-05 0.00019159"/>
+		<parent link="torso_link"/>
+		<child link="right_shoulder_pitch_link"/>
+		<axis xyz="0 1 0"/>
+		<limit lower="-3.0892" upper="2.6704" effort="25" velocity="37"/>
+	</joint>
+	<link name="right_shoulder_roll_link">
+		<inertial>
+		<origin xyz="-0.000227 -0.00727 -0.063243" rpy="0 0 0"/>
+		<mass value="0.643"/>
+		<inertia ixx="0.0006177" ixy="1E-06" ixz="8.7E-06" iyy="0.0006912" iyz="5.3E-06" izz="0.0003894"/>
+		</inertial>
+		<visual>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+			<mesh filename="g1_meshes/right_shoulder_roll_link.STL"/>
+		</geometry>
+		<material name="white">
+			<color rgba="0.7 0.7 0.7 1"/>
+		</material>
+		</visual>
+		<collision>
+			<origin xyz="-0.004 -0.006 -0.053" rpy="0 0 0"/>
+			<geometry>
+				<cylinder radius="0.03" length="0.03"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="right_shoulder_roll_joint" type="revolute">
+		<origin xyz="0 -0.038 -0.013831" rpy="0.27925 0 0"/>
+		<parent link="right_shoulder_pitch_link"/>
+		<child link="right_shoulder_roll_link"/>
+		<axis xyz="1 0 0"/>
+		<limit lower="-2.2515" upper="1.5882" effort="25" velocity="37"/>
+	</joint>
+	<link name="right_shoulder_yaw_link">
+		<inertial>
+		<origin xyz="0.010773 0.002949 -0.072009" rpy="0 0 0"/>
+		<mass value="0.734"/>
+		<inertia ixx="0.0009988" ixy="-7.9E-06" ixz="0.0001412" iyy="0.0010605" iyz="2.86E-05" izz="0.0004354"/>
+		</inertial>
+		<visual>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+			<mesh filename="g1_meshes/right_shoulder_yaw_link.STL"/>
+		</geometry>
+		<material name="white">
+			<color rgba="0.7 0.7 0.7 1"/>
+		</material>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="g1_meshes/right_shoulder_yaw_link.STL"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="right_shoulder_yaw_joint" type="revolute">
+		<origin xyz="0 -0.00624 -0.1032" rpy="0 0 0"/>
+		<parent link="right_shoulder_roll_link"/>
+		<child link="right_shoulder_yaw_link"/>
+		<axis xyz="0 0 1"/>
+		<limit lower="-2.618" upper="2.618" effort="25" velocity="37"/>
+	</joint>
+	<link name="right_elbow_link">
+		<inertial>
+		<origin xyz="0.064956 -0.004454 -0.010062" rpy="0 0 0"/>
+		<mass value="0.6"/>
+		<inertia ixx="0.0002891" ixy="-6.53E-05" ixz="1.72E-05" iyy="0.0004152" iyz="5.6E-06" izz="0.0004197"/>
+		</inertial>
+		<visual>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+			<mesh filename="g1_meshes/right_elbow_link.STL"/>
+		</geometry>
+		<material name="white">
+			<color rgba="0.7 0.7 0.7 1"/>
+		</material>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="g1_meshes/right_elbow_link.STL"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="right_elbow_joint" type="revolute">
+		<origin xyz="0.015783 0 -0.080518" rpy="0 0 0"/>
+		<parent link="right_shoulder_yaw_link"/>
+		<child link="right_elbow_link"/>
+		<axis xyz="0 1 0"/>
+		<limit lower="-1.0472" upper="2.0944" effort="25" velocity="37"/>
+	</joint>
+	<joint name="right_wrist_roll_joint" type="revolute">
+		<origin xyz="0.100 -0.00188791 -0.010" rpy="0 0 0"/>
+		<axis xyz="1 0 0"/>
+		<parent link="right_elbow_link"/>
+		<child link="right_wrist_roll_link"/>
+		<limit effort="25" velocity="37" lower="-1.972222054" upper="1.972222054"/>
+	</joint>
+	<link name="right_wrist_roll_link">
+		<inertial>
+		<origin xyz="0.01713944778 -0.00053759094 0.00000048864" rpy="0 0 0"/>
+		<mass value="0.08544498"/>
+		<inertia ixx="0.00004821544023" ixy="0.00000424511021" ixz="0.00000000510599" iyy="0.00003722899093" iyz="0.00000000123525" izz="0.00005482106541"/>
+		</inertial>
+		<visual>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+			<mesh filename="g1_meshes/right_wrist_roll_link.STL"/>
+		</geometry>
+		<material name="white">
+			<color rgba="0.7 0.7 0.7 1"/>
+		</material>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="g1_meshes/right_wrist_roll_link.STL"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="right_wrist_pitch_joint" type="revolute">
+		<origin xyz="0.038 0 0" rpy="0 0 0"/>
+		<axis xyz="0 1 0"/>
+		<parent link="right_wrist_roll_link"/>
+		<child link="right_wrist_pitch_link"/>
+		<limit effort="5" velocity="22" lower="-1.614429558" upper="1.614429558"/>
+	</joint>
+	<link name="right_wrist_pitch_link">
+		<inertial>
+		<origin xyz="0.02299989837 0.00111685314 -0.00111658096" rpy="0 0 0"/>
+		<mass value="0.48404956"/>
+		<inertia ixx="0.00016579646273" ixy="0.00001231206746" ixz="0.00001231699194" iyy="0.00042954057410" iyz="-0.00000081417712" izz="0.00042953697654"/>
+		</inertial>
+		<visual>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+			<mesh filename="g1_meshes/right_wrist_pitch_link.STL"/>
+		</geometry>
+		<material name="white">
+			<color rgba="0.7 0.7 0.7 1"/>
+		</material>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="g1_meshes/right_wrist_pitch_link.STL"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="right_wrist_yaw_joint" type="revolute">
+		<origin xyz="0.046 0 0" rpy="0 0 0"/>
+		<axis xyz="0 0 1"/>
+		<parent link="right_wrist_pitch_link"/>
+		<child link="right_wrist_yaw_link"/>
+		<limit effort="5" velocity="22" lower="-1.614429558" upper="1.614429558"/>
+	</joint>
+	<link name="right_wrist_yaw_link">
+		<inertial>
+		<origin xyz="0.02200381568 -0.00049485096 0.00053861123" rpy="0 0 0"/>
+		<mass value="0.08457647"/>
+		<inertia ixx="0.00004929128828" ixy="0.00000045735494" ixz="0.00000445867591" iyy="0.00005973338134" iyz="-0.00000043217198" izz="0.00003928083826"/>
+		</inertial>
+		<visual>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+			<mesh filename="g1_meshes/right_wrist_yaw_link.STL"/>
+		</geometry>
+		<material name="white">
+			<color rgba="0.7 0.7 0.7 1"/>
+		</material>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="g1_meshes/right_wrist_yaw_link.STL"/>
+			</geometry>
+		</collision>
+	</link>
+	<!--                   connect g1 to hand                   -->
+	<joint name="right_hand_palm_joint" type="fixed" dont_collapse="true">
+		<origin xyz="0.0415 -0.021 0" rpy="1.5707963268 0 0"/>
+		<parent link="right_wrist_yaw_link"/>
+		<child link="right_palm"/>
+	</joint>
+	<!--################################################################-->
+	<link name="right_palm">
+		<visual>
+			<geometry>
+				<mesh filename="hand_meshes/visual/palm_vis.obj"/>
+			</geometry>
+		</visual>
+		<collision>
+			<geometry>
+				<mesh filename="hand_meshes/collisions_stl/palm1_part0.stl"/>
+			</geometry>
+		</collision>
+		<collision>
+			<geometry>
+				<mesh filename="hand_meshes/collisions_stl/palm1_part1.stl"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin xyz="0.05 -0.0 -0.0275" rpy="0 0 1.6050739058"/><geometry><box size="0.06 0.06 0.02"/></geometry></collision> -->
+		<!-- <collision><geometry><mesh filename="robot_meshes/palm2_part0.obj"/></geometry></collision><collision><geometry><mesh filename="robot_meshes/palm2_part1.obj"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+		</inertial>
+	</link>
+	<link name="f1_finger_root">
+		<inertial>
+			<mass value="0.001"/>
+			<inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+		</inertial>
+	</link>
+	<joint name="f1_root_joint" type="fixed">
+		<parent link="right_palm"/>
+		<child link="f1_finger_root"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f1_finger_palm_servo">
+		<visual>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_palm_servo_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><geometry><mesh filename="robot_meshes/collisions_stl/finger_palm_servo_part0.STL"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f1_palm_servo_joint" type="fixed">
+		<parent link="f1_finger_root"/>
+		<child link="f1_finger_palm_servo"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f1_finger_base">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.018630 -0.061720 0.028000"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_base_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.018630 -0.061720 0.028000" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_base_servo_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0 -0.0016 0"/>
+			<geometry>
+				<box size="0.019 0.028 0.03"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f1_finger_palm_joint" type="revolute">
+		<parent link="f1_finger_palm_servo"/>
+		<child link="f1_finger_base"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.018630 0.061720 -0.028000"/>
+		<axis xyz="0.000000 0.000000 1.000000"/>
+		<limit effort="10.0" lower="-0.698000" upper="0.698000" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f1_finger_base_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_base_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_base_lever_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0175 0.026 0.005"/>
+			<geometry>
+				<box size="0.0255 0.034 0.03"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_base_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_base_lever_part2.obj"/></geometry></collision> -->
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_grammar1_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_grammar1_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.0175 0.0168 0.005" rpy="0 0 1.6050739058"/><geometry><box size="0.0023 0.034 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.015"/>
+			<inertia ixx="0.000015" ixy="0" ixz="0" iyy="0.000015" iyz="0" izz="0.000015"/>
+		</inertial>
+	</link>
+	<joint name="f1_finger_base_joint" type="revolute">
+		<parent link="f1_finger_base"/>
+		<child link="f1_finger_base_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.017090 0.000430 -0.004640"/>
+		<axis xyz="-0.999419 -0.034078 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f1_finger_middle">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_middle_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_middle_servo_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.018 0.03 0.0038"/><geometry><box size="0.02 0.028 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f1_middle_joint" type="fixed">
+		<parent link="f1_finger_base_lever"/>
+		<child link="f1_finger_middle"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f1_finger_middle_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_middle_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_middle_lever_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0175 0.026 0.005"/>
+			<geometry>
+				<box size="0.0255 0.034 0.03"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_middle_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_middle_lever_part2.obj"/></geometry></collision> -->
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_grammar2_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_grammar2_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.0175 0.0168 0.005" rpy="0 0 1.6050739058"/><geometry><box size="0.0023 0.034 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.015"/>
+			<inertia ixx="0.000015" ixy="0" ixz="0" iyy="0.000015" iyz="0" izz="0.000015"/>
+		</inertial>
+	</link>
+	<joint name="f1_finger_middle_joint" type="revolute">
+		<parent link="f1_finger_middle"/>
+		<child link="f1_finger_middle_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="-0.001150 0.031470 -0.001140"/>
+		<axis xyz="-0.999419 -0.034078 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f1_finger_end">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_end_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_end_servo_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.018630 0.03 0.0038"/><geometry><box size="0.022 0.028 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f1_end_joint" type="fixed">
+		<parent link="f1_finger_middle_lever"/>
+		<child link="f1_finger_end"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f1_finger_end_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.033530 -0.125100 0.034780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_end_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_end_lever_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.0175 0.016 0.005"/><geometry><box size="0.0027 0.034 0.03"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part2.obj"/></geometry></collision><collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part3.obj"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f1_finger_end_joint" type="revolute">
+		<parent link="f1_finger_end"/>
+		<child link="f1_finger_end_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="-0.001040 0.031480 -0.001000"/>
+		<axis xyz="-0.999419 -0.034088 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f1_finger_tip">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.033530 -0.125100 0.034780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_tip_vis.obj"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="hand_meshes/collisions_stl/finger_tip_part0.stl"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin rpy="0 1.5707963268 1.6050739058" xyz="-0.0175 0.032 0.002"/><geometry><cylinder length="0.034" radius="0.012"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 1.5707963268 1.6050739058" xyz="-0.018 0.036 0.002"/><geometry><sphere radius="0.012"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_tip_part1.obj"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.005"/>
+			<inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+		</inertial>
+	</link>
+	<joint name="f1_tip_joint" type="fixed" dont_collapse="true">
+		<parent link="f1_finger_end_lever"/>
+		<child link="f1_finger_tip"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f2_finger_root">
+		<inertial>
+			<mass value="0.001"/>
+			<inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+		</inertial>
+	</link>
+	<joint name="f2_root_joint" type="fixed">
+		<parent link="right_palm"/>
+		<child link="f2_finger_root"/>
+		<origin rpy="0.000000 0.000000 -0.558867" xyz="0.025080 0.024835 0.000000"/>
+	</joint>
+	<link name="f2_finger_palm_servo">
+		<visual>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_palm_servo_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><geometry><mesh filename="robot_meshes/collisions_stl/finger_palm_servo_part0.STL"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f2_palm_servo_joint" type="fixed">
+		<parent link="f2_finger_root"/>
+		<child link="f2_finger_palm_servo"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f2_finger_base">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.018630 -0.061720 0.028000"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_base_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.018630 -0.061720 0.028000" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_base_servo_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0 -0.0016 0"/>
+			<geometry>
+				<box size="0.019 0.028 0.03"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f2_finger_palm_joint" type="revolute">
+		<parent link="f2_finger_palm_servo"/>
+		<child link="f2_finger_base"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.018630 0.061720 -0.028000"/>
+		<axis xyz="0.000000 0.000000 1.000000"/>
+		<limit effort="10.0" lower="-0.698000" upper="0.698000" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f2_finger_base_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_base_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_base_lever_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0175 0.026 0.005"/>
+			<geometry>
+				<box size="0.0255 0.034 0.03"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_base_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_base_lever_part2.obj"/></geometry></collision> -->
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_grammar1_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_grammar1_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.0175 0.0168 0.005" rpy="0 0 1.6050739058"/><geometry><box size="0.0023 0.034 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.015"/>
+			<inertia ixx="0.000015" ixy="0" ixz="0" iyy="0.000015" iyz="0" izz="0.000015"/>
+		</inertial>
+	</link>
+	<joint name="f2_finger_base_joint" type="revolute">
+		<parent link="f2_finger_base"/>
+		<child link="f2_finger_base_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.017090 0.000430 -0.004640"/>
+		<axis xyz="-0.999419 -0.034078 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f2_finger_middle">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_middle_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_middle_servo_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.018 0.03 0.0038"/><geometry><box size="0.02 0.028 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f2_middle_joint" type="fixed">
+		<parent link="f2_finger_base_lever"/>
+		<child link="f2_finger_middle"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f2_finger_middle_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_middle_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_middle_lever_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0175 0.026 0.005"/>
+			<geometry>
+				<box size="0.0255 0.034 0.03"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_middle_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_middle_lever_part2.obj"/></geometry></collision> -->
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_grammar2_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_grammar2_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.0175 0.0168 0.005" rpy="0 0 1.6050739058"/><geometry><box size="0.0023 0.034 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.015"/>
+			<inertia ixx="0.000015" ixy="0" ixz="0" iyy="0.000015" iyz="0" izz="0.000015"/>
+		</inertial>
+	</link>
+	<joint name="f2_finger_middle_joint" type="revolute">
+		<parent link="f2_finger_middle"/>
+		<child link="f2_finger_middle_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="-0.001150 0.031470 -0.001140"/>
+		<axis xyz="-0.999419 -0.034078 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f2_finger_end">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_end_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_end_servo_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.018630 0.03 0.0038"/><geometry><box size="0.022 0.028 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f2_end_joint" type="fixed">
+		<parent link="f2_finger_middle_lever"/>
+		<child link="f2_finger_end"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f2_finger_end_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.033530 -0.125100 0.034780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_end_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_end_lever_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.0175 0.016 0.005"/><geometry><box size="0.0027 0.034 0.03"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part2.obj"/></geometry></collision><collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part3.obj"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f2_finger_end_joint" type="revolute">
+		<parent link="f2_finger_end"/>
+		<child link="f2_finger_end_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="-0.001040 0.031480 -0.001000"/>
+		<axis xyz="-0.999419 -0.034088 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f2_finger_tip">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.033530 -0.125100 0.034780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_tip_vis.obj"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="hand_meshes/collisions_stl/finger_tip_part0.stl"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin rpy="0 1.5707963268 1.6050739058" xyz="-0.0175 0.032 0.002"/><geometry><cylinder length="0.034" radius="0.012"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 1.5707963268 1.6050739058" xyz="-0.018 0.036 0.002"/><geometry><sphere radius="0.012"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_tip_part1.obj"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.005"/>
+			<inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+		</inertial>
+	</link>
+	<joint name="f2_tip_joint" type="fixed" dont_collapse="true">
+		<parent link="f2_finger_end_lever"/>
+		<child link="f2_finger_tip"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f3_finger_root">
+		<inertial>
+			<mass value="0.001"/>
+			<inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+		</inertial>
+	</link>
+	<joint name="f3_root_joint" type="fixed">
+		<parent link="right_palm"/>
+		<child link="f3_finger_root"/>
+		<origin rpy="0.000000 0.000000 -1.403303" xyz="0.041631 0.031106 0.000000"/>
+	</joint>
+	<link name="f3_finger_palm_servo">
+		<visual>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_palm_servo_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><geometry><mesh filename="robot_meshes/collisions_stl/finger_palm_servo_part0.STL"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f3_palm_servo_joint" type="fixed">
+		<parent link="f3_finger_root"/>
+		<child link="f3_finger_palm_servo"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f3_finger_base">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.018630 -0.061720 0.028000"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_base_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.018630 -0.061720 0.028000" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_base_servo_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0 -0.0016 0"/>
+			<geometry>
+				<box size="0.019 0.028 0.03"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f3_finger_palm_joint" type="revolute">
+		<parent link="f3_finger_palm_servo"/>
+		<child link="f3_finger_base"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.018630 0.061720 -0.028000"/>
+		<axis xyz="0.000000 0.000000 1.000000"/>
+		<limit effort="10.0" lower="-0.698000" upper="0.698000" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f3_finger_base_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_base_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_base_lever_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0175 0.026 0.005"/>
+			<geometry>
+				<box size="0.0255 0.034 0.03"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_base_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_base_lever_part2.obj"/></geometry></collision> -->
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_grammar1_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_grammar1_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.0175 0.0168 0.005" rpy="0 0 1.6050739058"/><geometry><box size="0.0023 0.034 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.015"/>
+			<inertia ixx="0.000015" ixy="0" ixz="0" iyy="0.000015" iyz="0" izz="0.000015"/>
+		</inertial>
+	</link>
+	<joint name="f3_finger_base_joint" type="revolute">
+		<parent link="f3_finger_base"/>
+		<child link="f3_finger_base_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.017090 0.000430 -0.004640"/>
+		<axis xyz="-0.999419 -0.034078 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f3_finger_middle">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_middle_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_middle_servo_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.018 0.03 0.0038"/><geometry><box size="0.02 0.028 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f3_middle_joint" type="fixed">
+		<parent link="f3_finger_base_lever"/>
+		<child link="f3_finger_middle"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f3_finger_middle_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_middle_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_middle_lever_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0175 0.026 0.005"/>
+			<geometry>
+				<box size="0.0255 0.034 0.03"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_middle_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_middle_lever_part2.obj"/></geometry></collision> -->
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_grammar2_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_grammar2_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.0175 0.0168 0.005" rpy="0 0 1.6050739058"/><geometry><box size="0.0023 0.034 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.015"/>
+			<inertia ixx="0.000015" ixy="0" ixz="0" iyy="0.000015" iyz="0" izz="0.000015"/>
+		</inertial>
+	</link>
+	<joint name="f3_finger_middle_joint" type="revolute">
+		<parent link="f3_finger_middle"/>
+		<child link="f3_finger_middle_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="-0.001150 0.031470 -0.001140"/>
+		<axis xyz="-0.999419 -0.034078 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f3_finger_end">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_end_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_end_servo_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.018630 0.03 0.0038"/><geometry><box size="0.022 0.028 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f3_end_joint" type="fixed">
+		<parent link="f3_finger_middle_lever"/>
+		<child link="f3_finger_end"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f3_finger_end_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.033530 -0.125100 0.034780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_end_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_end_lever_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.0175 0.016 0.005"/><geometry><box size="0.0027 0.034 0.03"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part2.obj"/></geometry></collision><collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part3.obj"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f3_finger_end_joint" type="revolute">
+		<parent link="f3_finger_end"/>
+		<child link="f3_finger_end_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="-0.001040 0.031480 -0.001000"/>
+		<axis xyz="-0.999419 -0.034088 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f3_finger_tip">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.033530 -0.125100 0.034780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_tip_vis.obj"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="hand_meshes/collisions_stl/finger_tip_part0.stl"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin rpy="0 1.5707963268 1.6050739058" xyz="-0.0175 0.032 0.002"/><geometry><cylinder length="0.034" radius="0.012"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 1.5707963268 1.6050739058" xyz="-0.018 0.036 0.002"/><geometry><sphere radius="0.012"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_tip_part1.obj"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.005"/>
+			<inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+		</inertial>
+	</link>
+	<joint name="f3_tip_joint" type="fixed" dont_collapse="true">
+		<parent link="f3_finger_end_lever"/>
+		<child link="f3_finger_tip"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f4_finger_root">
+		<inertial>
+			<mass value="0.001"/>
+			<inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+		</inertial>
+	</link>
+	<joint name="f4_root_joint" type="fixed">
+		<parent link="right_palm"/>
+		<child link="f4_finger_root"/>
+		<origin rpy="0.000000 0.000000 -1.907016" xyz="0.052468 0.010662 0.000000"/>
+	</joint>
+	<link name="f4_finger_palm_servo">
+		<visual>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_palm_servo_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><geometry><mesh filename="robot_meshes/collisions_stl/finger_palm_servo_part0.STL"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f4_palm_servo_joint" type="fixed">
+		<parent link="f4_finger_root"/>
+		<child link="f4_finger_palm_servo"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f4_finger_base">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.018630 -0.061720 0.028000"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_base_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.018630 -0.061720 0.028000" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_base_servo_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0 -0.0016 0"/>
+			<geometry>
+				<box size="0.019 0.028 0.03"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f4_finger_palm_joint" type="revolute">
+		<parent link="f4_finger_palm_servo"/>
+		<child link="f4_finger_base"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.018630 0.061720 -0.028000"/>
+		<axis xyz="0.000000 0.000000 1.000000"/>
+		<limit effort="10.0" lower="-0.698000" upper="0.698000" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f4_finger_base_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_base_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_base_lever_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0175 0.026 0.005"/>
+			<geometry>
+				<box size="0.0255 0.034 0.03"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_base_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_base_lever_part2.obj"/></geometry></collision> -->
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_grammar1_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_grammar1_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.0175 0.0168 0.005" rpy="0 0 1.6050739058"/><geometry><box size="0.0023 0.034 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.015"/>
+			<inertia ixx="0.000015" ixy="0" ixz="0" iyy="0.000015" iyz="0" izz="0.000015"/>
+		</inertial>
+	</link>
+	<joint name="f4_finger_base_joint" type="revolute">
+		<parent link="f4_finger_base"/>
+		<child link="f4_finger_base_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.017090 0.000430 -0.004640"/>
+		<axis xyz="-0.999419 -0.034078 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f4_finger_middle">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_middle_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_middle_servo_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.018 0.03 0.0038"/><geometry><box size="0.02 0.028 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f4_middle_joint" type="fixed">
+		<parent link="f4_finger_base_lever"/>
+		<child link="f4_finger_middle"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f4_finger_middle_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_middle_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_middle_lever_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0175 0.026 0.005"/>
+			<geometry>
+				<box size="0.0255 0.034 0.03"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_middle_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_middle_lever_part2.obj"/></geometry></collision> -->
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_grammar2_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_grammar2_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.0175 0.0168 0.005" rpy="0 0 1.6050739058"/><geometry><box size="0.0023 0.034 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.015"/>
+			<inertia ixx="0.000015" ixy="0" ixz="0" iyy="0.000015" iyz="0" izz="0.000015"/>
+		</inertial>
+	</link>
+	<joint name="f4_finger_middle_joint" type="revolute">
+		<parent link="f4_finger_middle"/>
+		<child link="f4_finger_middle_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="-0.001150 0.031470 -0.001140"/>
+		<axis xyz="-0.999419 -0.034078 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f4_finger_end">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_end_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_end_servo_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.018630 0.03 0.0038"/><geometry><box size="0.022 0.028 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f4_end_joint" type="fixed">
+		<parent link="f4_finger_middle_lever"/>
+		<child link="f4_finger_end"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f4_finger_end_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.033530 -0.125100 0.034780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_end_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_end_lever_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.0175 0.016 0.005"/><geometry><box size="0.0027 0.034 0.03"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part2.obj"/></geometry></collision><collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part3.obj"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f4_finger_end_joint" type="revolute">
+		<parent link="f4_finger_end"/>
+		<child link="f4_finger_end_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="-0.001040 0.031480 -0.001000"/>
+		<axis xyz="-0.999419 -0.034088 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f4_finger_tip">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.033530 -0.125100 0.034780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_tip_vis.obj"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="hand_meshes/collisions_stl/finger_tip_part0.stl"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin rpy="0 1.5707963268 1.6050739058" xyz="-0.0175 0.032 0.002"/><geometry><cylinder length="0.034" radius="0.012"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 1.5707963268 1.6050739058" xyz="-0.018 0.036 0.002"/><geometry><sphere radius="0.012"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_tip_part1.obj"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.005"/>
+			<inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+		</inertial>
+	</link>
+	<joint name="f4_tip_joint" type="fixed" dont_collapse="true">
+		<parent link="f4_finger_end_lever"/>
+		<child link="f4_finger_tip"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f5_finger_root">
+		<inertial>
+			<mass value="0.001"/>
+			<inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+		</inertial>
+	</link>
+	<joint name="f5_root_joint" type="fixed">
+		<parent link="right_palm"/>
+		<child link="f5_finger_root"/>
+		<origin rpy="0.000000 0.000000 -2.656200" xyz="0.059325 -0.005386 0.000000"/>
+	</joint>
+	<link name="f5_finger_palm_servo">
+		<visual>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_palm_servo_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><geometry><mesh filename="robot_meshes/collisions_stl/finger_palm_servo_part0.STL"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f5_palm_servo_joint" type="fixed">
+		<parent link="f5_finger_root"/>
+		<child link="f5_finger_palm_servo"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f5_finger_base">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.018630 -0.061720 0.028000"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_base_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.018630 -0.061720 0.028000" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_base_servo_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0 -0.0016 0"/>
+			<geometry>
+				<box size="0.019 0.028 0.03"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f5_finger_palm_joint" type="revolute">
+		<parent link="f5_finger_palm_servo"/>
+		<child link="f5_finger_base"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.018630 0.061720 -0.028000"/>
+		<axis xyz="0.000000 0.000000 1.000000"/>
+		<limit effort="10.0" lower="-0.698000" upper="0.698000" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f5_finger_base_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_base_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_base_lever_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0175 0.026 0.005"/>
+			<geometry>
+				<box size="0.0255 0.034 0.03"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_base_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_base_lever_part2.obj"/></geometry></collision> -->
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_grammar1_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_grammar1_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.0175 0.0168 0.005" rpy="0 0 1.6050739058"/><geometry><box size="0.0023 0.034 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.015"/>
+			<inertia ixx="0.000015" ixy="0" ixz="0" iyy="0.000015" iyz="0" izz="0.000015"/>
+		</inertial>
+	</link>
+	<joint name="f5_finger_base_joint" type="revolute">
+		<parent link="f5_finger_base"/>
+		<child link="f5_finger_base_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.017090 0.000430 -0.004640"/>
+		<axis xyz="-0.999419 -0.034078 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f5_finger_middle">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.035720 -0.062150 0.032640"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_middle_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.035720 -0.062150 0.032640" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_middle_servo_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.018 0.03 0.0038"/><geometry><box size="0.02 0.028 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f5_middle_joint" type="fixed">
+		<parent link="f5_finger_base_lever"/>
+		<child link="f5_finger_middle"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f5_finger_middle_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_middle_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_middle_lever_part0.STL"/></geometry></collision> -->
+		<collision>
+			<origin rpy="0 0 1.6050739058" xyz="-0.0175 0.026 0.005"/>
+			<geometry>
+				<box size="0.0255 0.034 0.03"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_middle_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_middle_lever_part2.obj"/></geometry></collision> -->
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_grammar2_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_grammar2_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.0175 0.0168 0.005" rpy="0 0 1.6050739058"/><geometry><box size="0.0023 0.034 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.015"/>
+			<inertia ixx="0.000015" ixy="0" ixz="0" iyy="0.000015" iyz="0" izz="0.000015"/>
+		</inertial>
+	</link>
+	<joint name="f5_finger_middle_joint" type="revolute">
+		<parent link="f5_finger_middle"/>
+		<child link="f5_finger_middle_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="-0.001150 0.031470 -0.001140"/>
+		<axis xyz="-0.999419 -0.034078 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f5_finger_end">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.034570 -0.093620 0.033780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_end_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.034570 -0.093620 0.033780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_end_servo_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.018630 0.03 0.0038"/><geometry><box size="0.022 0.028 0.03"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f5_end_joint" type="fixed">
+		<parent link="f5_finger_middle_lever"/>
+		<child link="f5_finger_end"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+	<link name="f5_finger_end_lever">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.033530 -0.125100 0.034780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_end_lever_vis.obj"/>
+			</geometry>
+		</visual>
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/collisions_stl/finger_end_lever_part0.STL"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 0 1.6050739058" xyz="-0.0175 0.016 0.005"/><geometry><box size="0.0027 0.034 0.03"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part1.obj"/></geometry></collision><collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part2.obj"/></geometry></collision><collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_end_lever_part3.obj"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+		</inertial>
+	</link>
+	<joint name="f5_finger_end_joint" type="revolute">
+		<parent link="f5_finger_end"/>
+		<child link="f5_finger_end_lever"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="-0.001040 0.031480 -0.001000"/>
+		<axis xyz="-0.999419 -0.034088 0.000000"/>
+		<limit effort="10.0" lower="0.000000" upper="1.570800" velocity="1.0"/>
+		<dynamics damping="0.1" friction="0.01"/>
+	</joint>
+	<link name="f5_finger_tip">
+		<visual>
+			<origin rpy="0 0 0" xyz="-0.033530 -0.125100 0.034780"/>
+			<geometry>
+				<mesh filename="hand_meshes/visual/finger_tip_vis.obj"/>
+			</geometry>
+		</visual>
+		<collision>
+			<origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/>
+			<geometry>
+				<mesh filename="hand_meshes/collisions_stl/finger_tip_part0.stl"/>
+			</geometry>
+		</collision>
+		<!-- <collision><origin rpy="0 1.5707963268 1.6050739058" xyz="-0.0175 0.032 0.002"/><geometry><cylinder length="0.034" radius="0.012"/></geometry></collision> -->
+		<!-- <collision><origin rpy="0 1.5707963268 1.6050739058" xyz="-0.018 0.036 0.002"/><geometry><sphere radius="0.012"/></geometry></collision> -->
+		<!-- <collision><origin xyz="-0.033530 -0.125100 0.034780" rpy="0 0 0"/><geometry><mesh filename="robot_meshes/finger_tip_part1.obj"/></geometry></collision> -->
+		<inertial>
+			<mass value="0.005"/>
+			<inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+		</inertial>
+	</link>
+	<joint name="f5_tip_joint" type="fixed" dont_collapse="true">
+		<parent link="f5_finger_end_lever"/>
+		<child link="f5_finger_tip"/>
+		<origin rpy="0.000000 0.000000 0.000000" xyz="0.000000 0.000000 0.000000"/>
+	</joint>
+</robot>

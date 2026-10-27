@@ -1,0 +1,99 @@
+# Package ######################################################################
+
+[build-system]
+requires = ["setuptools >= 62.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "humanoid"
+description = "Catch It All!: Generalizable Dynamic Catching with a Dexterous Hand"
+authors = [
+    { name = "Arth Shukla" },
+    { name = "Kehlani Fay" },
+    { name = "Huaze Liu" },
+    { name = "Darin Djapri" },
+    { name = "Alexiy Buynitsky" },
+    { name = "Nicklas Hansen" },
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+license = { text = "MIT License" }
+keywords = ["Reinforcement Learning", "Robotics", "RL", "AI"]
+classifiers = [
+    "Development Status :: 4 - Beta",  # change to `5 - Production/Stable` when ready
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    'Intended Audience :: Science/Research',
+    'Topic :: Scientific/Engineering :: Artificial Intelligence',
+]
+dependencies = [
+    "omegaconf",
+    "dacite",
+
+    "wandb",
+    "tensorboard",
+    "tensorboardX",
+    "neptune",
+
+    "shortuuid",
+    "tqdm",
+
+    "gymnasium",
+
+    "opencv-python",
+    "imageio[ffmpeg]",
+    "mujoco==3.2.3",
+
+    "psutil",
+
+    "scikit-learn",
+
+    "line_profiler",
+
+    "muon-optimizer @ git+https://github.com/KellerJordan/Muon",
+
+    # # MANUALLY:
+    # # pip install --upgrade "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+    # "optax==0.1.3",
+    # "flax>=0.5.2",
+    # "tensorflow-probability>=0.17.0"
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+
+dev = ["ipdb", "jupyterlab", "ipython", "black", "isort", "pre-commit", "line_profiler[all]"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["humanoid", "humanoid.*"]
+
+# Linters and Test tools #######################################################
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+atomic = true
+profile = "black"
+src_paths = ["humanoid", "scripts"]
+extra_standard_library = ["typing_extensions"]
+indent = 4
+lines_after_imports = 2
+multi_line_output = 3
+line_length = 88
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "GYMNASIUM", "LEARNING", "SAM2", "ISAACGYM", "SAPIEN", "MANI_SKILL", "HUMANOID", "LOCALFOLDER"]
+known_humanoid = ["humanoid"]
+known_mani_skill = ["mani_skill"]
+known_sapien = ["sapien"]
+known_isaacgym = ["isaacgym"]
+known_sam2 = ["sam2"]
+known_learning = ["torch", "numpy", "transforms3d", "jax", "flax", "optax", "tensorflow-probability"]
+known_gymnasium = ["gymnasium"]
+known_third_party = ["wandb", "tensorboard", "tensorboardX", "omegaconf", "dacite", "torch"]

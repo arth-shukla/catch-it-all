@@ -1,0 +1,37 @@
+seed: 0
+algo:
+  name: dagger
+
+  loss: kl
+
+  collect_steps_per_iter: 200
+  updates_per_iter: 200
+  loss_lower_bound: 0.0
+
+  data_path: null
+  data_type: null
+
+  buffer_size: 1_000_000
+  buffer_device: cuda
+
+  adam_lr: 1e-3
+  muon_lr: 0.02
+  batch_size: 512
+  max_grad_norm: null
+
+  num_iterations: 1_000_000
+  extra_stat_keys: []
+  early_break_config: {}
+
+  log_freq: 1_000_000
+  save_freq: 5_000_000
+  eval_freq: null
+  save_backup_ckpts: True
+
+logger:
+  workspace: humanoid_exps
+  exp_name: dagger-pick
+  clear_out: True
+  
+  tensorboard: True
+  wandb: False

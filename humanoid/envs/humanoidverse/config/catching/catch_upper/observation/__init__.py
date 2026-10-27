@@ -1,0 +1,2 @@
+from .lock_legs import G1CatchUpperLockLegsObservationConfig
+from .lock_legs_hist import G1CatchUpperLockLegsObservationHistConfig

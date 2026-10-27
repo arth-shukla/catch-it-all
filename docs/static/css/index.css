@@ -1,0 +1,131 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+
+.footer .icon-link {
+    font-size: 25px;
+    color: #000;
+}
+
+.link-block a {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 3rem;
+}
+
+.teaser {
+  font-family: 'Google Sans', sans-serif;
+}
+
+.publication-title {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-venue {
+    color: #555;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.publication-authors a {
+   color: #1a4db5 !important;
+}
+
+.publication-authors a:hover {
+    text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+/* space the affiliation items apart, like the paper's author block */
+.publication-affiliations .author-block {
+  margin: 0 0.6em;
+}
+
+.publication-video {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+
+    overflow: hidden;
+    border-radius: 10px !important;
+}
+
+.publication-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.eql-cntrb {
+  font-size: smaller;
+}
+
+.name {
+  color: #1a4db5;
+}
+
+/* keep the italic "!" from leaning into the ":" (padding adds no line-break opportunity) */
+.publication-title .name {
+  padding-right: 0.1em;
+}
+
+.teaser video,
+.local-video video {
+  width: 100%;
+  display: block;
+  background: #000;
+  border-radius: 10px;
+}
+
+.teaser .subtitle {
+  margin-top: 1rem;
+}
+
+.clip-grid video {
+  width: 100%;
+  display: block;
+  background: #000;
+  border-radius: 6px;
+}
+
+.clip-grid .clip-caption {
+  margin-top: 0.4rem;
+  font-weight: 600;
+}
+
+.clip-grid .clip-caption span {
+  margin-left: 0.4rem;
+  font-weight: 400;
+  color: #7a7a7a;
+}
+
+table.results-table {
+  margin: 0 auto;
+}
+
+table.results-table th,
+table.results-table td {
+  padding: 0.5rem 1.5rem;
+}
+
+table.results-table .sub {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #7a7a7a;
+}
